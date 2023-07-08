@@ -30,3 +30,5 @@ cd() {
 }
 
 alias config='/usr/bin/git --git-dir=/home/alba/.dotfiles --work-tree=/home/alba'
+
+alias kkp='kaggle kernels push -p'
