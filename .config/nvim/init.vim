@@ -18,3 +18,4 @@ let g:seoul256_light_background = 256
 colo seoul256
 
 set ts=2 sw=2
+set number
