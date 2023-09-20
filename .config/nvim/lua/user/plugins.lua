@@ -11,13 +11,35 @@ end
 
 local packer_bootstrap = ensure_packer()
 
+vim.cmd([[
+  augroup packer_user_config
+    autocmd!
+    autocmd BufWritePost plugins.lua source <afile> | PackerSync
+  augroup end
+]])
+
+local status_ok, packer = pcall(require, "packer")
+if not status_ok then
+	return
+end
+
 return require('packer').startup(function(use)
   use "wbthomason/packer.nvim"
 	use "nvim-lua/plenary.nvim"
+	use "nvim-lua/popup.nvim"
+	use "folke/tokyonight.nvim"
 
-  -- My plugins here
-  -- use 'foo1/bar1.nvim'
-  -- use 'foo2/bar2.nvim'
+
+	-- cmp plugins
+	use 'hrsh7th/cmp-buffer'
+	use 'hrsh7th/cmp-path'
+	use 'hrsh7th/cmp-cmdline'
+	use 'hrsh7th/nvim-cmp'
+	use 'saadparwaiz1/cmp_luasnip'
+
+	-- snippets plugins
+	use	"L3MON4D3/LuaSnip"
+	use "rafamadriz/friendly-snippets"
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
@@ -25,3 +47,4 @@ return require('packer').startup(function(use)
     require('packer').sync()
   end
 end)
+
