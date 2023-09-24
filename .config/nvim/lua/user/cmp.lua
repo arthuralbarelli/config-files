@@ -17,6 +17,11 @@ end
 require("luasnip/loaders/from_vscode").lazy_load()
 require("luasnip").filetype_extend("javascript", {"javascriptreact"})
 
+local check_backspace = function()
+  local col = vim.fn.col "." - 1
+  return col == 0 or vim.fn.getline("."):sub(col, col):match "%s"
+end
+
 local cmp_kinds = {
   Text = ' ',
   Snippet = '  ',
@@ -40,17 +45,24 @@ cmp.setup({
     ['<C-b>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-e>'] = cmp.mapping.abort(),
+    ['<C-e>'] = cmp.mapping {
+      i = cmp.mapping.abort(),
+      c = cmp.mapping.close(),
+    },
     ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
     ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
+      elseif luasnip.expandable() then
+        luasnip.expand()
         -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable() 
         -- they way you will only jump inside the snippet region
       elseif luasnip.expand_or_jumpable() then
         luasnip.expand_or_jump()
       elseif has_words_before() then
         cmp.complete()
+      elseif check_backspace() then
+        fallback()
       else
         fallback()
       end
@@ -73,9 +85,19 @@ cmp.setup({
     end,
   },
   sources = cmp.config.sources({
-    { name = 'luasnip' },
-    { name = 'buffer' },
-    { name = 'path' },
-  })
+    { name = 'luasnip' }, -- For luasnip users.
+  }, {
+      { name = 'buffer' },
+      { name = 'path' },
+    }),
+  confirm_opts = {
+    behavior = cmp.ConfirmBehavior.Replace,
+    select = false,
+  },
+  window = {
+    documentation = {
+      border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+    },
+  },
 })
 
