@@ -35,7 +35,7 @@ return require('packer').startup(function(use)
   use 'hrsh7th/cmp-cmdline'
   use 'hrsh7th/nvim-cmp'
   use 'saadparwaiz1/cmp_luasnip'
-  use 'neovim/nvim-lspconfig'
+  use 'hrsh7th/cmp-nvim-lsp'
 
   -- snippets plugins
   use({
@@ -55,6 +55,10 @@ return require('packer').startup(function(use)
       ts_update()
     end,
   }
+  
+  -- LSP
+  use 'neovim/nvim-lspconfig'
+  use "williamboman/mason.nvim"
 
   use {
     "windwp/nvim-autopairs",
