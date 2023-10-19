@@ -1,8 +1,8 @@
 local ensure_packer = function()
   local fn = vim.fn
-  local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+  local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
   if fn.empty(fn.glob(install_path)) > 0 then
-    fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+    fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
     vim.cmd [[packadd packer.nvim]]
     return true
   end
@@ -24,6 +24,7 @@ end
 
 return require('packer').startup(function(use)
   use "wbthomason/packer.nvim"
+  use "lewis6991/gitsigns.nvim"
   use "nvim-lua/plenary.nvim"
   use "nvim-lua/popup.nvim"
   use "folke/tokyonight.nvim"
@@ -55,7 +56,7 @@ return require('packer').startup(function(use)
       ts_update()
     end,
   }
-  
+
   -- LSP
   use 'neovim/nvim-lspconfig'
   use "williamboman/mason.nvim"
@@ -76,4 +77,3 @@ return require('packer').startup(function(use)
     require('packer').sync()
   end
 end)
-
