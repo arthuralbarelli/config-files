@@ -17,12 +17,13 @@ ts.setup {
     "css",
     "html",
     "lua",
-		"svelte",
-		"scss",
-		"typescript"
+    "svelte",
+    "scss",
+    "typescript"
   },
   autotag = {
     enable = true,
+    enable_close_on_slash = false
   },
 }
 
